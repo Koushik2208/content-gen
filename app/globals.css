@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 7%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 207 100% 56%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 328 100% 59%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 207 100% 56%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 207 100% 56%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-[#121212] text-foreground font-manrope;
+  }
+}
+
+@layer utilities {
+  .glow-blue {
+    box-shadow: 0 0 20px rgba(30, 144, 255, 0.4);
+  }
+  .glow-blue-hover:hover {
+    box-shadow: 0 0 30px rgba(30, 144, 255, 0.6);
+  }
+  .glow-magenta {
+    box-shadow: 0 0 20px rgba(255, 45, 149, 0.4);
+  }
+  .glow-magenta-hover:hover {
+    box-shadow: 0 0 30px rgba(255, 45, 149, 0.6);
+  }
+  .gradient-glow {
+    box-shadow: 0 4px 24px rgba(30, 144, 255, 0.3), 0 4px 24px rgba(255, 45, 149, 0.2);
+  }
+  .gradient-glow-hover:hover {
+    box-shadow: 0 6px 32px rgba(30, 144, 255, 0.4), 0 6px 32px rgba(255, 45, 149, 0.3);
+  }
+  .heading-bebas {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.02em;
+  }
+}
