@@ -48,8 +48,31 @@ export async function updateProfile(id: string, updates: any) {
   
   const { error } = await supabase
     .from('profiles')
-    .update(updates)
+    .update({
+      ...updates,
+      updated_at: new Date().toISOString()
+    })
     .eq('id', id)
   
   if (error) throw error
+}
+
+export async function updateProfileByUserId(userId: string, updates: {
+  full_name?: string
+  profession?: string
+  audience?: string
+  tone?: string
+}) {
+  const supabase = createServerClient()
+  
+  const { error } = await supabase
+    .from('profiles')
+    .update({
+      ...updates,
+      updated_at: new Date().toISOString()
+    })
+    .eq('user_id', userId)
+  
+  if (error) throw error
+  return { success: true }
 }

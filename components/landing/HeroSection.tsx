@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Sparkles, Play } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export function HeroSection() {
@@ -46,14 +47,15 @@ export function HeroSection() {
           </div>
 
           <div className="pt-12 pb-8">
-            <div className="relative max-w-4xl mx-auto rounded-xl overflow-hidden glow-blue">
-              <div className="aspect-video bg-gradient-to-br from-[#1E90FF]/20 to-[#FF2D95]/20 backdrop-blur-sm border border-white/10 rounded-xl flex items-center justify-center">
-                <div className="text-center space-y-2">
-                  <div className="w-16 h-16 mx-auto rounded-full bg-[#1E90FF]/20 flex items-center justify-center">
-                    <Sparkles className="w-8 h-8 text-[#1E90FF]" />
-                  </div>
-                  <p className="text-gray-400">Dashboard Preview</p>
-                </div>
+            <div className="relative max-w-4xl mx-auto rounded-xl overflow-hidden glow-blue shadow-2xl">
+              <div className="aspect-video relative">
+                <Image
+                  src="/assets/images/dashboard-preview.png"
+                  alt="BRANDAI Dashboard Preview"
+                  fill
+                  className="object-cover rounded-xl"
+                  priority
+                />
               </div>
             </div>
           </div>

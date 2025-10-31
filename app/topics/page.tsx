@@ -20,6 +20,7 @@ import { getProfile } from "@/server/users/actions";
 import { getTopics } from "@/server/ai/actions";
 import { toast } from "sonner";
 import { createClient } from "@supabase/supabase-js";
+import { PageHeader } from "@/components/shared/PageHeader";
 
 type TopicStatus = "draft" | "approved" | "rejected" | "done";
 
@@ -160,27 +161,19 @@ export default function TopicsPage() {
 
   return (
     <div className="min-h-screen bg-[#121212] flex flex-col">
-      <header className="sticky top-0 z-50 border-b border-white/5 bg-[#121212]/95 backdrop-blur-sm">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <Link
-              href="/"
-              className="text-2xl font-bold tracking-wider heading-bebas"
+      <PageHeader
+        rightContent={
+          <Link href="/">
+            <Button
+              variant="outline"
+              className="border-white/20 hover:border-white/40 hover:bg-white/5 rounded-full"
             >
-              BRANDAI
-            </Link>
-            <Link href="/">
-              <Button
-                variant="outline"
-                className="border-white/20 hover:border-white/40 hover:bg-white/5 rounded-full"
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Home
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </header>
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Home
+            </Button>
+          </Link>
+        }
+      />
 
       <main className="flex-1 container mx-auto px-6 py-12">
         <div className="max-w-6xl mx-auto space-y-8">

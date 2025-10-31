@@ -72,6 +72,18 @@ export async function generateContentTemplate(topic: string, userId: string, top
   tags: string[]
 }> {
   try {
+    // Get user profile to use preferences
+    const supabase = createServerClient()
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('profession, audience, tone')
+      .eq('user_id', userId)
+      .single()
+
+    const userContext = profile 
+      ? `Target Audience: ${profile.audience}, Content Tone: ${profile.tone}${profile.profession ? `, Profession: ${profile.profession}` : ''}`
+      : ''
+
     const platformGuidelines = {
       instagram: "Instagram: Create carousel-ready posts with hook, 2-3 mini-insights, and CTA. Use emojis naturally, keep text concise but valuable, include 3-5 hashtags. Structure as: Title/Hook (Slide 1), Slide 2, Slide 3, CTA slide.",
       linkedin: "LinkedIn: Professional, business-focused, longer form, industry insights, networking",
@@ -81,6 +93,7 @@ export async function generateContentTemplate(topic: string, userId: string, top
     const prompt = platform === 'instagram' 
       ? `Create a carousel-ready Instagram post for the topic: "${topic}"
       
+      ${userContext ? `User Preferences: ${userContext}\n\n` : ''}
       Structure the post as follows:
       1. Hook/Title (Slide 1) - Grab attention with an engaging opening
       2. Slide 2 - First mini-insight or example (actionable, valuable)
@@ -94,6 +107,8 @@ export async function generateContentTemplate(topic: string, userId: string, top
       - Make each slide provide actual value
       - Include 3-5 relevant hashtags at the end
       - Make it engaging and shareable
+      ${profile?.tone ? `- Maintain a ${profile.tone} tone throughout` : ''}
+      ${profile?.audience ? `- Write specifically for ${profile.audience}` : ''}
       
       Format the response as:
       TITLE: [Hook/Title for Slide 1]
@@ -101,12 +116,15 @@ export async function generateContentTemplate(topic: string, userId: string, top
       TAGS: [tag1, tag2, tag3, tag4, tag5]`
       : `Create a content template for the topic: "${topic}" for ${platform.toUpperCase()}
       
+      ${userContext ? `User Preferences: ${userContext}\n\n` : ''}
       Platform Guidelines: ${platformGuidelines[platform as keyof typeof platformGuidelines]}
       
       Generate:
       1. A compelling title (max 60 characters)
       2. Engaging content optimized for ${platform} (follow platform guidelines)
       3. 3-5 relevant hashtags/tags for ${platform}
+      ${profile?.tone ? `4. Content must maintain a ${profile.tone} tone` : ''}
+      ${profile?.audience ? `5. Content must resonate with ${profile.audience}` : ''}
       
       Format the response as:
       TITLE: [title here]
@@ -114,8 +132,8 @@ export async function generateContentTemplate(topic: string, userId: string, top
       TAGS: [tag1, tag2, tag3, tag4, tag5]`
 
     const systemMessage = platform === 'instagram'
-      ? "You are a professional Instagram content creator specializing in carousel posts. Create engaging, carousel-ready content with hooks, valuable insights, and strong CTAs. Focus on providing real value in each slide while maintaining Instagram's visual and engaging style."
-      : `You are a professional content creator specializing in ${platform}. Create engaging, platform-optimized content that drives engagement.`
+      ? `You are a professional Instagram content creator specializing in carousel posts. Create engaging, carousel-ready content with hooks, valuable insights, and strong CTAs. Focus on providing real value in each slide while maintaining Instagram's visual and engaging style.${profile?.tone ? ` Always maintain a ${profile.tone} tone.` : ''}${profile?.audience ? ` Write specifically for ${profile.audience}.` : ''}`
+      : `You are a professional content creator specializing in ${platform}. Create engaging, platform-optimized content that drives engagement.${profile?.tone ? ` Always maintain a ${profile.tone} tone.` : ''}${profile?.audience ? ` Write specifically for ${profile.audience}.` : ''}`
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4",
@@ -145,7 +163,6 @@ export async function generateContentTemplate(topic: string, userId: string, top
     const tags = tagsMatch?.[1]?.split(',').map(tag => tag.trim()).filter(tag => tag) || []
 
     // Save template to database
-    const supabase = createServerClient()
     const { data, error } = await supabase
       .from('content_templates')
       .insert({

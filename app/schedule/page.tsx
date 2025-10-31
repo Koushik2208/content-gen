@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { ScheduleForm } from '@/components/schedule/ScheduleForm';
 import { ScheduledPostCard } from '@/components/schedule/ScheduledPostCard';
 import { getContentTemplates } from '@/server/ai/actions';
+import { PageHeader } from '@/components/shared/PageHeader';
 
 // Define ContentTemplate interface locally
 interface ContentTemplate {
@@ -300,21 +301,16 @@ export default function SchedulePage() {
 
   return (
     <div className="min-h-screen bg-[#121212] flex flex-col">
-      <header className="sticky top-0 z-50 border-b border-white/5 bg-[#121212]/95 backdrop-blur-sm">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="text-2xl font-bold tracking-wider heading-bebas">
-              BRANDAI
-            </Link>
-            <Link href="/content-templates">
-              <Button variant="outline" className="border-white/20 hover:border-white/40 hover:bg-white/5 rounded-full">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Templates
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </header>
+      <PageHeader
+        rightContent={
+          <Link href="/content-templates">
+            <Button variant="outline" className="border-white/20 hover:border-white/40 hover:bg-white/5 rounded-full">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Templates
+            </Button>
+          </Link>
+        }
+      />
 
       <main className="flex-1 container mx-auto px-6 py-12">
         <div className="max-w-7xl mx-auto space-y-12">

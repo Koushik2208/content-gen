@@ -25,6 +25,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/lib/auth-context';
 import { createClient } from '@supabase/supabase-js';
 import { toast } from 'sonner';
+import { PageHeader } from '@/components/shared/PageHeader';
 
 export default function ContentTemplatesPage() {
   const router = useRouter();
@@ -275,29 +276,24 @@ export default function ContentTemplatesPage() {
 
   return (
     <div className="min-h-screen bg-[#121212] flex flex-col">
-      <header className="sticky top-0 z-50 border-b border-white/5 bg-[#121212]/95 backdrop-blur-sm">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="text-2xl font-bold tracking-wider heading-bebas">
-              BRANDAI
+      <PageHeader
+        rightContent={
+          <div className="flex items-center gap-3">
+            <Link href="/schedule">
+              <Button className="bg-gradient-to-r from-[#1E90FF] to-[#FF2D95] hover:from-[#1E90FF]/90 hover:to-[#FF2D95]/90 text-white rounded-full">
+                <Calendar className="w-4 h-4 mr-2" />
+                Schedule Posts
+              </Button>
             </Link>
-            <div className="flex items-center gap-3">
-              <Link href="/schedule">
-                <Button className="bg-gradient-to-r from-[#1E90FF] to-[#FF2D95] hover:from-[#1E90FF]/90 hover:to-[#FF2D95]/90 text-white rounded-full">
-                  <Calendar className="w-4 h-4 mr-2" />
-                  Schedule Posts
-                </Button>
-              </Link>
-              <Link href="/topics">
-                <Button variant="ghost" className="border border-white/20 hover:border-white/40 hover:bg-white/5 rounded-full">
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back to Topics
-                </Button>
-              </Link>
-            </div>
+            <Link href="/topics">
+              <Button variant="ghost" className="border border-white/20 hover:border-white/40 hover:bg-white/5 rounded-full">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Topics
+              </Button>
+            </Link>
           </div>
-        </div>
-      </header>
+        }
+      />
 
       <main className="flex-1 container mx-auto px-6 py-12">
         <div className="max-w-7xl mx-auto space-y-8">

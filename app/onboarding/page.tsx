@@ -323,6 +323,8 @@ export default function OnboardingPage() {
                       <SelectItem value="conversational">Conversational</SelectItem>
                       <SelectItem value="inspirational">Inspirational</SelectItem>
                       <SelectItem value="educational">Educational</SelectItem>
+                      <SelectItem value="story telling">Story Telling</SelectItem>
+                      <SelectItem value="lead magnet">Lead Magnet</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
