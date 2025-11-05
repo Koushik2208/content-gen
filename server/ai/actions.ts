@@ -4,10 +4,14 @@ import { createServerClient } from '@/lib/supabaseClient'
 import { generateTopics as generateTopicsWithOpenAI } from './openai-actions'
 import { log } from 'console'
 
-export async function generateTopics(userId: string): Promise<string[]> {
+export async function generateTopics(userId: string, count: number = 5): Promise<string[]> {
   try {
     if (!userId) {
       throw new Error('User ID is required')
+    }
+
+    if (count < 1 || count > 5) {
+      throw new Error('Count must be between 1 and 5')
     }
 
     const supabase = createServerClient()
@@ -24,7 +28,7 @@ export async function generateTopics(userId: string): Promise<string[]> {
     }
 
     // Generate topics using OpenAI (no automatic template generation)
-    const topics = await generateTopicsWithOpenAI(profile, userId)
+    const topics = await generateTopicsWithOpenAI(profile, userId, count)
     
     return topics
   } catch (error) {

@@ -13,9 +13,9 @@ interface UserProfile {
   tone: string
 }
 
-export async function generateTopics(userProfile: UserProfile, userId: string): Promise<string[]> {
+export async function generateTopics(userProfile: UserProfile, userId: string, count: number = 5): Promise<string[]> {
   try {
-    const prompt = `Generate exactly 5 content topics for a ${userProfile.profession} targeting ${userProfile.audience} with a ${userProfile.tone} tone. 
+    const prompt = `Generate exactly ${count} content topic${count === 1 ? '' : 's'} for a ${userProfile.profession} targeting ${userProfile.audience} with a ${userProfile.tone} tone. 
     Return only the topics, one per line, without numbering or bullet points.`
 
     const completion = await openai.chat.completions.create({
@@ -23,7 +23,7 @@ export async function generateTopics(userProfile: UserProfile, userId: string): 
       messages: [
         {
           role: "system",
-          content: "You are a content strategy expert. Generate exactly 5 engaging, relevant topics that would resonate with the target audience."
+          content: `You are a content strategy expert. Generate exactly ${count} engaging, relevant topic${count === 1 ? '' : 's'} that would resonate with the target audience.`
         },
         {
           role: "user",
@@ -35,7 +35,7 @@ export async function generateTopics(userProfile: UserProfile, userId: string): 
     })
 
     const topicsText = completion.choices[0]?.message?.content || ''
-    const topics = topicsText.split('\n').filter(topic => topic.trim()).slice(0, 5)
+    const topics = topicsText.split('\n').filter(topic => topic.trim()).slice(0, count)
 
     // Save topics to database
     const supabase = createServerClient()

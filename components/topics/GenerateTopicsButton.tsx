@@ -24,13 +24,21 @@ export function GenerateTopicsButton({ currentCount, maxCount, onTopicsGenerated
       return;
     }
 
+    const remaining = maxCount - currentCount;
+    const topicsToGenerate = Math.min(5, remaining);
+
+    if (topicsToGenerate <= 0) {
+      toast.error(`You have reached the maximum of ${maxCount} topics.`);
+      return;
+    }
+
     setIsGenerating(true);
 
     try {
       console.log('Generating topics for user:', user.id);
-      const result = await generateTopics(user.id);
+      const result = await generateTopics(user.id, topicsToGenerate);
       console.log('Generation result:', result);
-      toast.success('Topics generated successfully!');
+      toast.success(`Generated ${topicsToGenerate} topic${topicsToGenerate === 1 ? '' : 's'} successfully!`);
       onTopicsGenerated?.(); // Refresh the topics list
     } catch (error) {
       console.error('Error generating topics:', error);
@@ -79,7 +87,7 @@ export function GenerateTopicsButton({ currentCount, maxCount, onTopicsGenerated
 
           <p className="text-gray-400 max-w-2xl mx-auto leading-relaxed">
             Our AI will analyze your profile and create engaging content topics tailored to your audience.
-            Each generation creates 3-5 unique topic ideas.
+            Generate up to {Math.min(5, maxCount - currentCount)} more topic{Math.min(5, maxCount - currentCount) === 1 ? '' : 's'}.
           </p>
 
           <Button
@@ -102,7 +110,7 @@ export function GenerateTopicsButton({ currentCount, maxCount, onTopicsGenerated
           </Button>
 
           <p className="text-sm text-gray-500 pt-2">
-            You can generate {maxCount - currentCount} more {maxCount - currentCount === 1 ? 'topic' : 'topics'}
+            You can generate up to {Math.min(5, maxCount - currentCount)} more topic{Math.min(5, maxCount - currentCount) === 1 ? '' : 's'} (max 5 per generation)
           </p>
         </div>
       </div>

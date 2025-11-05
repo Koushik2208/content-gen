@@ -4,17 +4,17 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
-  ArrowLeft,
   Sparkles,
   Clock,
   CheckCircle2,
   XCircle,
   FileText,
   Loader2,
+  Plus,
 } from "lucide-react";
-import Link from "next/link";
 import { TopicCard } from "@/components/topics/TopicCard";
 import { GenerateTopicsButton } from "@/components/topics/GenerateTopicsButton";
+import { AddTopicDialog } from "@/components/topics/AddTopicDialog";
 import { useAuth } from "@/lib/auth-context";
 import { getProfile } from "@/server/users/actions";
 import { getTopics } from "@/server/ai/actions";
@@ -22,7 +22,7 @@ import { toast } from "sonner";
 import { createClient } from "@supabase/supabase-js";
 import { PageHeader } from "@/components/shared/PageHeader";
 
-type TopicStatus = "draft" | "approved" | "rejected" | "done";
+type TopicStatus = "draft" | "templates_generated" | "approved" | "rejected" | "done";
 
 interface Topic {
   id: string;
@@ -38,6 +38,7 @@ export default function TopicsPage() {
   const [topics, setTopics] = useState<Topic[]>([]);
   const [loading, setLoading] = useState(true);
   const [profileCheckComplete, setProfileCheckComplete] = useState(false);
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 
   const topicCount = topics.length;
   const maxTopics = 10;
@@ -161,19 +162,7 @@ export default function TopicsPage() {
 
   return (
     <div className="min-h-screen bg-[#121212] flex flex-col">
-      <PageHeader
-        rightContent={
-          <Link href="/">
-            <Button
-              variant="outline"
-              className="border-white/20 hover:border-white/40 hover:bg-white/5 rounded-full"
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Home
-            </Button>
-          </Link>
-        }
-      />
+      <PageHeader rightContent={null} />
 
       <main className="flex-1 container mx-auto px-6 py-12">
         <div className="max-w-6xl mx-auto space-y-8">
@@ -182,26 +171,34 @@ export default function TopicsPage() {
               Topics
             </h1>
             <p className="text-xl text-gray-400 max-w-3xl">
-              Manage your content topics below. Click on draft topics to create
-              detailed content templates, or generate new ideas to expand your
-              content strategy.
+              Manage your topics. Click an Idea to generate templates, or open Ready topics to use templates.
             </p>
+            <div className="flex items-center gap-4">
+              <Button
+                onClick={() => setIsAddDialogOpen(true)}
+                disabled={topicCount >= maxTopics}
+                className="bg-gradient-to-r from-[#1E90FF] to-[#FF2D95] hover:from-[#1E90FF]/90 hover:to-[#FF2D95]/90 text-white rounded-full"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Add Your Own Topic
+              </Button>
+            </div>
             <div className="flex items-center gap-4 text-sm text-gray-400">
               <span className="inline-flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-[#1E90FF]"></div>
-                {topics.filter((t) => t.status === "draft").length} Draft
+                {topics.filter((t) => t.status === "draft").length} Idea
               </span>
               <span className="inline-flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
-                {topics.filter((t) => t.status === "approved").length} Approved
+                {topics.filter((t) => t.status === "approved" || t.status === "templates_generated").length} Ready
               </span>
               <span className="inline-flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-gray-500"></div>
-                {topics.filter((t) => t.status === "done").length} Done
+                {topics.filter((t) => t.status === "done").length} Published
               </span>
               <span className="inline-flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-red-500"></div>
-                {topics.filter((t) => t.status === "rejected").length} Rejected
+                {topics.filter((t) => t.status === "rejected").length} Archived
               </span>
             </div>
           </div>
@@ -221,6 +218,16 @@ export default function TopicsPage() {
             maxCount={maxTopics}
             onTopicsGenerated={handleTopicsGenerated}
           />
+          {user && (
+            <AddTopicDialog
+              open={isAddDialogOpen}
+              onOpenChange={setIsAddDialogOpen}
+              onTopicAdded={handleTopicsGenerated}
+              userId={user.id}
+              currentCount={topicCount}
+              maxCount={maxTopics}
+            />
+          )}
         </div>
       </main>
     </div>

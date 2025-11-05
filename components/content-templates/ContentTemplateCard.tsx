@@ -3,11 +3,9 @@
 import { useState } from 'react';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Edit2, Save, X, Copy, Download } from 'lucide-react';
+import { Edit2, Copy, Download, Eye } from 'lucide-react';
+import { TemplateViewDialog } from './TemplateViewDialog';
 // Define ContentTemplate interface locally
 interface ContentTemplate {
   id: string;
@@ -30,45 +28,13 @@ interface ContentTemplateCardProps {
 }
 
 export function ContentTemplateCard({ template, onSave, onStatusUpdate }: ContentTemplateCardProps) {
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedTitle, setEditedTitle] = useState(template.title);
-  const [editedContent, setEditedContent] = useState(template.content);
-  const [editedSlides, setEditedSlides] = useState(template.carouselSlides || []);
-  const [editedStatus, setEditedStatus] = useState(template.status);
-  const [isSaving, setIsSaving] = useState(false);
   const { toast } = useToast();
+  const [isViewOpen, setIsViewOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
   const isCarousel = template.platform === 'Instagram' && template.carouselSlides && template.carouselSlides.length > 0;
 
-  const handleSave = async () => {
-    setIsSaving(true);
-    try {
-      await onSave(template.id, { title: editedTitle, content: editedContent });
-      // Also save status if it changed
-      if (onStatusUpdate && editedStatus !== template.status) {
-        await onStatusUpdate(template.id, editedStatus);
-      }
-      setIsEditing(false);
-    } catch (error) {
-      console.error('Failed to save:', error);
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
-  const handleCancel = () => {
-    setEditedTitle(template.title);
-    setEditedContent(template.content);
-    setEditedSlides(template.carouselSlides || []);
-    setEditedStatus(template.status);
-    setIsEditing(false);
-  };
-
-  const handleSlideChange = (index: number, value: string) => {
-    const newSlides = [...editedSlides];
-    newSlides[index] = value;
-    setEditedSlides(newSlides);
-  };
+  // Editing handled inside modal
 
   const handleCopy = async () => {
     try {
@@ -101,46 +67,21 @@ export function ContentTemplateCard({ template, onSave, onStatusUpdate }: Conten
   };
 
   return (
-    <Card className="bg-[#1A1A1A] border-none shadow-lg hover:shadow-2xl hover:shadow-[#1E90FF]/10 transition-all duration-300 group h-[550px] flex flex-col">
+    <Card className="relative bg-[#1A1A1A] border border-white/10 shadow-lg hover:shadow-2xl hover:shadow-[#1E90FF]/10 transition-all duration-300 group h-[360px] flex flex-col rounded-2xl before:content-[''] before:absolute before:top-0 before:left-1/2 before:-translate-x-1/2 before:w-24 before:h-2 before:bg-white/10 before:rounded-b-md">
       <CardHeader className="space-y-4 flex-shrink-0">
         <div className="flex items-start justify-between gap-4">
-          {isEditing ? (
-            <Input
-              value={editedTitle}
-              onChange={(e) => setEditedTitle(e.target.value)}
-              className="bg-[#121212] border-white/10 focus:border-[#1E90FF] focus:ring-[#1E90FF]/20 text-white text-lg font-semibold"
-              placeholder="Template title"
-            />
-          ) : (
-            <h3 className="text-xl font-semibold text-white leading-tight flex-1">
-              {template.title}
-            </h3>
-          )}
+          <h3 className="text-xl font-semibold text-white leading-tight flex-1">
+            {template.title}
+          </h3>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
           <Badge className={`${platformColors[template.platform] || platformColors.default} border font-medium`}>
             {template.platform}
           </Badge>
-          {onStatusUpdate && isEditing ? (
-            <Select 
-              value={editedStatus} 
-              onValueChange={setEditedStatus}
-            >
-              <SelectTrigger className="w-32 bg-[#121212] border-white/10 text-white border-0">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent className="bg-[#1A1A1A] border-white/10">
-                <SelectItem value="draft" className="text-white hover:bg-white/10">Draft</SelectItem>
-                <SelectItem value="approved" className="text-white hover:bg-white/10">Approved</SelectItem>
-                <SelectItem value="published" className="text-white hover:bg-white/10">Published</SelectItem>
-              </SelectContent>
-            </Select>
-          ) : (
-            <Badge className={`${statusColors[template.status]} border font-medium capitalize`}>
-              {template.status}
-            </Badge>
-          )}
+          <Badge className={`${statusColors[template.status]} border font-medium capitalize`}>
+            {template.status}
+          </Badge>
         </div>
 
         {template.tags.length > 0 && (
@@ -157,81 +98,30 @@ export function ContentTemplateCard({ template, onSave, onStatusUpdate }: Conten
         )}
       </CardHeader>
 
-      <CardContent className="flex-1 overflow-y-auto min-h-0">
+      <CardContent className="flex-1 overflow-hidden min-h-0">
         {isCarousel ? (
-          isEditing ? (
-            <div className="space-y-3">
-              <p className="text-sm text-gray-400">Edit carousel slides:</p>
-              {editedSlides.map((slide, index) => (
-                <Textarea
-                  key={index}
-                  value={slide}
-                  onChange={(e) => handleSlideChange(index, e.target.value)}
-                  className="bg-[#121212] border-white/10 focus:border-[#E4405F] focus:ring-[#E4405F]/20 text-white min-h-[120px] resize-none"
-                  placeholder={`Slide ${index + 1} content`}
-                />
-              ))}
-            </div>
-          ) : (
-            <CarouselPreview slides={template.carouselSlides || []} isEditing={false} />
-          )
+          <div className="pointer-events-none select-none">
+            <CarouselPreview slides={(template.carouselSlides || []).slice(0, 3)} isEditing={false} />
+          </div>
         ) : (
-          isEditing ? (
-            <Textarea
-              value={editedContent}
-              onChange={(e) => setEditedContent(e.target.value)}
-              className="bg-[#121212] border-white/10 focus:border-[#1E90FF] focus:ring-[#1E90FF]/20 text-white min-h-[200px] resize-none"
-              placeholder="Template content"
-            />
-          ) : template.platform === 'LinkedIn' ? (
-            <div className="w-full mx-auto">
-              <div className="bg-white rounded-lg overflow-hidden shadow-xl border border-gray-200 p-5">
-                <div className="text-gray-900 leading-relaxed whitespace-pre-wrap text-sm">
-                  {template.content}
-                </div>
-              </div>
-            </div>
-          ) : template.platform === 'Twitter' ? (
-            <div className="w-full mx-auto">
-              <div className="bg-black rounded-2xl overflow-hidden shadow-xl border border-gray-800 p-5">
-                <div className="text-white leading-relaxed whitespace-pre-wrap text-sm">
-                  {template.content}
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="text-gray-400 leading-relaxed whitespace-pre-wrap">
-              {template.content}
-            </div>
-          )
+          <div className="text-gray-300 leading-relaxed whitespace-pre-wrap line-clamp-6">
+            {template.content}
+          </div>
         )}
       </CardContent>
 
       <CardFooter className="border-t border-white/5 pt-4 flex-shrink-0">
-        {isEditing ? (
-          <div className="flex items-center gap-2 w-full">
+        <div className="flex items-center gap-2 w-full">
             <Button
-              onClick={handleSave}
-              disabled={isSaving}
-              className="flex-1 bg-gradient-to-r from-[#1E90FF] to-[#FF2D95] hover:from-[#1E90FF]/90 hover:to-[#FF2D95]/90 text-white rounded-full"
-            >
-              <Save className="w-4 h-4 mr-2" />
-              {isSaving ? 'Saving...' : 'Save Changes'}
-            </Button>
-            <Button
-              onClick={handleCancel}
-              disabled={isSaving}
+              onClick={() => setIsViewOpen(true)}
               variant="outline"
               className="flex-1 border-white/20 hover:border-white/40 hover:bg-white/5 rounded-full"
             >
-              <X className="w-4 h-4 mr-2" />
-              Cancel
+              <Eye className="w-4 h-4 mr-2" />
+              View
             </Button>
-          </div>
-        ) : (
-          <div className="flex items-center gap-2 w-full">
             <Button
-              onClick={() => setIsEditing(true)}
+            onClick={() => setIsEditOpen(true)}
               variant="outline"
               className="flex-1 border-white/20 hover:border-[#1E90FF]/50 hover:bg-[#1E90FF]/10 rounded-full group-hover:border-[#1E90FF]/30 transition-colors"
             >
@@ -261,10 +151,27 @@ export function ContentTemplateCard({ template, onSave, onStatusUpdate }: Conten
                 <Copy className="w-4 h-4 mr-2" />
                 Copy
               </Button>
-            )}
-          </div>
-        )}
+          )}
+        </div>
       </CardFooter>
+
+      {/* View/Edit Modals */}
+      <TemplateViewDialog
+        open={isViewOpen}
+        onOpenChange={setIsViewOpen}
+        template={template}
+        mode="view"
+        onSave={onSave}
+        onStatusUpdate={onStatusUpdate}
+      />
+      <TemplateViewDialog
+        open={isEditOpen}
+        onOpenChange={setIsEditOpen}
+        template={template}
+        mode="edit"
+        onSave={onSave}
+        onStatusUpdate={onStatusUpdate}
+      />
     </Card>
   );
 }
