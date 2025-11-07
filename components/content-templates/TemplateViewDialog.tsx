@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { Save, X, ChevronDown, ChevronUp } from "lucide-react";
+import { Save, X, ChevronDown, ChevronUp, Share2, CheckCircle2 } from "lucide-react";
 
 interface ContentTemplate {
   id: string;
@@ -140,7 +140,7 @@ export function TemplateViewDialog({ open, onOpenChange, template, mode, onSave,
               <SelectTrigger className="w-40 bg-[#121212] border-white/10 text-white">
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
-              <SelectContent className="bg-[#1A1A1A] border-white/10">
+              <SelectContent className="bg-[#1A1A1A] border-white/10 w-min">
                 <SelectItem value="draft" className="text-white hover:bg-white/10">Draft</SelectItem>
                 <SelectItem value="approved" className="text-white hover:bg-white/10">Approved</SelectItem>
                 <SelectItem value="published" className="text-white hover:bg-white/10">Published</SelectItem>
@@ -311,6 +311,32 @@ export function TemplateViewDialog({ open, onOpenChange, template, mode, onSave,
                 Cancel
               </Button>
             </>
+          ) : isX ? (
+            <div className="w-full flex items-center gap-2">
+              <Button
+                onClick={() => {
+                  const tweetText = template.content;
+                  const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+                  window.open(url, "_blank");
+                }}
+                variant="outline"
+                className="flex-1 border-[#1DA1F2]/40 hover:border-[#1DA1F2]/60 hover:bg-[#1DA1F2]/10 text-[#1DA1F2] rounded-full"
+              >
+                <Share2 className="w-4 h-4 mr-2" />
+                Share on X
+              </Button>
+              <Button
+                onClick={() => {
+                    onStatusUpdate?.(template.id, "published");
+                  onOpenChange(false);
+                }}
+                variant="outline"
+                className="flex-1 border-emerald-500/40 hover:border-emerald-500/60 hover:bg-emerald-500/10 text-emerald-400 rounded-full"
+              >
+                <CheckCircle2 className="w-4 h-4 mr-2" />
+                Mark Done
+              </Button>
+            </div>
           ) : null}
         </div>
       </DialogContent>

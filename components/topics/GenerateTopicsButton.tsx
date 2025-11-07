@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Label } from '@/components/ui/label';
 import { Sparkles, AlertCircle, Loader2 } from 'lucide-react';
 import { generateTopics } from '@/server/ai/actions';
 import { useAuth } from '@/lib/auth-context';
@@ -16,6 +18,7 @@ interface GenerateTopicsButtonProps {
 export function GenerateTopicsButton({ currentCount, maxCount, onTopicsGenerated }: GenerateTopicsButtonProps) {
   const { user } = useAuth();
   const [isGenerating, setIsGenerating] = useState(false);
+  const [count, setCount] = useState<string>('1');
   const hasReachedLimit = currentCount >= maxCount;
 
   const handleGenerateTopics = async () => {
@@ -25,7 +28,8 @@ export function GenerateTopicsButton({ currentCount, maxCount, onTopicsGenerated
     }
 
     const remaining = maxCount - currentCount;
-    const topicsToGenerate = Math.min(5, remaining);
+    const selectedCount = parseInt(count);
+    const topicsToGenerate = Math.min(selectedCount, remaining);
 
     if (topicsToGenerate <= 0) {
       toast.error(`You have reached the maximum of ${maxCount} topics.`);
@@ -87,8 +91,39 @@ export function GenerateTopicsButton({ currentCount, maxCount, onTopicsGenerated
 
           <p className="text-gray-400 max-w-2xl mx-auto leading-relaxed">
             Our AI will analyze your profile and create engaging content topics tailored to your audience.
-            Generate up to {Math.min(5, maxCount - currentCount)} more topic{Math.min(5, maxCount - currentCount) === 1 ? '' : 's'}.
           </p>
+
+          <div className="flex items-center justify-center gap-4">
+            <div className="flex items-center gap-2">
+              <Label htmlFor="topic-count" className="text-gray-400 text-sm">
+                Generate:
+              </Label>
+              <Select value={count} onValueChange={setCount}>
+                <SelectTrigger id="topic-count" className="w-20 bg-[#121212] border-white/10 text-white">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-[#1A1A1A] border-white/10">
+                  {[1, 2, 3, 4, 5].map((num) => {
+                    const remaining = maxCount - currentCount;
+                    const maxAllowed = Math.min(num, remaining);
+                    return (
+                      <SelectItem
+                        key={num}
+                        value={num.toString()}
+                        disabled={maxAllowed < num}
+                        className="text-white hover:bg-white/10"
+                      >
+                        {num}
+                      </SelectItem>
+                    );
+                  })}
+                </SelectContent>
+              </Select>
+              <span className="text-sm text-gray-400">
+                topic{parseInt(count) === 1 ? '' : 's'} at once
+              </span>
+            </div>
+          </div>
 
           <Button
             size="lg"
@@ -110,7 +145,9 @@ export function GenerateTopicsButton({ currentCount, maxCount, onTopicsGenerated
           </Button>
 
           <p className="text-sm text-gray-500 pt-2">
-            You can generate up to {Math.min(5, maxCount - currentCount)} more topic{Math.min(5, maxCount - currentCount) === 1 ? '' : 's'} (max 5 per generation)
+            {maxCount - currentCount > 0 
+              ? `You can generate up to ${Math.min(5, maxCount - currentCount)} more topic${Math.min(5, maxCount - currentCount) === 1 ? '' : 's'}`
+              : 'You have reached your topic limit'}
           </p>
         </div>
       </div>

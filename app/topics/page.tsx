@@ -30,6 +30,9 @@ interface Topic {
   status: TopicStatus;
   createdAt: string;
   description?: string;
+  has_been_improved?: boolean;
+  target_audience?: string | null;
+  tone?: string | null;
 }
 
 export default function TopicsPage() {
@@ -93,6 +96,9 @@ export default function TopicsPage() {
         status: topic.status,
         createdAt: new Date(topic.created_at).toISOString().split("T")[0],
         description: `AI-generated topic: ${topic.topic}`,
+        has_been_improved: topic.has_been_improved || false,
+        target_audience: topic.target_audience,
+        tone: topic.tone,
       }));
 
       console.log("Transformed topics:", transformedTopics);

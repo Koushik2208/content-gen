@@ -72,16 +72,26 @@ export async function generateContentTemplate(topic: string, userId: string, top
   tags: string[]
 }> {
   try {
-    // Get user profile to use preferences
+    // Get topic-level preferences first, then fallback to profile
     const supabase = createServerClient()
+    const { data: topic } = await supabase
+      .from('content_topics')
+      .select('target_audience, tone')
+      .eq('id', topicId)
+      .single()
+
     const { data: profile } = await supabase
       .from('profiles')
       .select('profession, audience, tone')
       .eq('user_id', userId)
       .single()
 
+    // Use topic-level values if present, otherwise use profile defaults
+    const targetAudience = topic?.target_audience || profile?.audience || ''
+    const tone = topic?.tone || profile?.tone || ''
+
     const userContext = profile 
-      ? `Target Audience: ${profile.audience}, Content Tone: ${profile.tone}${profile.profession ? `, Profession: ${profile.profession}` : ''}`
+      ? `Target Audience: ${targetAudience}, Content Tone: ${tone}${profile.profession ? `, Profession: ${profile.profession}` : ''}`
       : ''
 
     const platformGuidelines = {
@@ -107,8 +117,8 @@ export async function generateContentTemplate(topic: string, userId: string, top
       - Make each slide provide actual value
       - Include 3-5 relevant hashtags at the end
       - Make it engaging and shareable
-      ${profile?.tone ? `- Maintain a ${profile.tone} tone throughout` : ''}
-      ${profile?.audience ? `- Write specifically for ${profile.audience}` : ''}
+      ${tone ? `- Maintain a ${tone} tone throughout` : ''}
+      ${targetAudience ? `- Write specifically for ${targetAudience}` : ''}
       
       Format the response as:
       TITLE: [Hook/Title for Slide 1]
@@ -123,8 +133,8 @@ export async function generateContentTemplate(topic: string, userId: string, top
       1. A compelling title (max 60 characters)
       2. Engaging content optimized for ${platform} (follow platform guidelines)
       3. 3-5 relevant hashtags/tags for ${platform}
-      ${profile?.tone ? `4. Content must maintain a ${profile.tone} tone` : ''}
-      ${profile?.audience ? `5. Content must resonate with ${profile.audience}` : ''}
+      ${tone ? `4. Content must maintain a ${tone} tone` : ''}
+      ${targetAudience ? `5. Content must resonate with ${targetAudience}` : ''}
       
       Format the response as:
       TITLE: [title here]
@@ -132,8 +142,8 @@ export async function generateContentTemplate(topic: string, userId: string, top
       TAGS: [tag1, tag2, tag3, tag4, tag5]`
 
     const systemMessage = platform === 'instagram'
-      ? `You are a professional Instagram content creator specializing in carousel posts. Create engaging, carousel-ready content with hooks, valuable insights, and strong CTAs. Focus on providing real value in each slide while maintaining Instagram's visual and engaging style.${profile?.tone ? ` Always maintain a ${profile.tone} tone.` : ''}${profile?.audience ? ` Write specifically for ${profile.audience}.` : ''}`
-      : `You are a professional content creator specializing in ${platform}. Create engaging, platform-optimized content that drives engagement.${profile?.tone ? ` Always maintain a ${profile.tone} tone.` : ''}${profile?.audience ? ` Write specifically for ${profile.audience}.` : ''}`
+      ? `You are a professional Instagram content creator specializing in carousel posts. Create engaging, carousel-ready content with hooks, valuable insights, and strong CTAs. Focus on providing real value in each slide while maintaining Instagram's visual and engaging style.${tone ? ` Always maintain a ${tone} tone.` : ''}${targetAudience ? ` Write specifically for ${targetAudience}.` : ''}`
+      : `You are a professional content creator specializing in ${platform}. Create engaging, platform-optimized content that drives engagement.${tone ? ` Always maintain a ${tone} tone.` : ''}${targetAudience ? ` Write specifically for ${targetAudience}.` : ''}`
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4",
@@ -233,4 +243,58 @@ export async function generateContentForAllPlatforms(topic: string, userId: stri
   }
 
   return results
+}
+
+export async function improveTopicWithFeedback(
+  currentTopic: string,
+  feedback: string | undefined,
+  targetAudience?: string,
+  tone?: string
+): Promise<string> {
+  try {
+    const audienceContext = targetAudience ? `Target Audience: ${targetAudience}` : ''
+    const toneContext = tone ? `Content Tone: ${tone}` : ''
+    const contextParts = [audienceContext, toneContext].filter(Boolean)
+    const context = contextParts.length > 0 ? `\n\nContext: ${contextParts.join(', ')}` : ''
+
+    const feedbackSection = feedback ? `Feedback: "${feedback}"` : 'No specific feedback provided, but refine the topic based on the context below.'
+    
+    const prompt = `Improve and refine this content topic based on the feedback provided.
+
+Current Topic: "${currentTopic}"
+
+${feedbackSection}
+${context}
+
+Generate an improved version of the topic that:
+1. ${feedback ? 'Addresses the feedback provided' : 'Is more engaging and specific'}
+2. Is more engaging and specific
+3. Maintains the core idea but makes it better
+4. ${tone ? `Uses a ${tone} tone` : ''}
+5. ${targetAudience ? `Targets ${targetAudience}` : ''}
+
+Return only the improved topic text, nothing else.`
+
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4",
+      messages: [
+        {
+          role: "system",
+          content: "You are a content strategy expert. Improve topics based on feedback while maintaining their core essence."
+        },
+        {
+          role: "user",
+          content: prompt
+        }
+      ],
+      max_tokens: 200,
+      temperature: 0.7
+    })
+
+    const improvedTopic = completion.choices[0]?.message?.content?.trim() || currentTopic
+    return improvedTopic
+  } catch (error) {
+    console.error('Error improving topic:', error)
+    throw new Error('Failed to improve topic')
+  }
 }

@@ -34,8 +34,7 @@ export interface ScheduledPost {
   templateTitle: string;
   platform: string;
   content: string;
-  scheduledDate: string;
-  scheduledTime: string;
+  scheduledAt: string;
   status: 'scheduled' | 'published' | 'failed';
   createdAt: string;
 }
@@ -177,8 +176,7 @@ export default function SchedulePage() {
         templateTitle: post.template_id ? (templateTitles[post.template_id] || 'Template Not Found') : 'No Template',
         platform: post.platform,
         content: post.content,
-        scheduledDate: post.scheduled_at.split('T')[0],
-        scheduledTime: post.scheduled_at.split('T')[1]?.substring(0, 5) || '00:00',
+        scheduledAt: post.scheduled_at,
         status: post.status,
         createdAt: post.created_at
       }));

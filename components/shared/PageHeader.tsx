@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
-import { User, LogOut, Settings, UserCircle } from 'lucide-react';
+import { User, LogOut, Settings, UserCircle, Video } from 'lucide-react';
 import Link from 'next/link';
 import { useAuth } from '@/lib/auth-context';
 import { useRouter } from 'next/navigation';
@@ -59,6 +59,10 @@ export function PageHeader({ title, rightContent }: PageHeaderProps) {
                     <Settings className="mr-2 h-4 w-4" />
                     <span>Templates</span>
                   </DropdownMenuItem>
+                  <DropdownMenuItem className="text-white hover:bg-white/10" onClick={() => router.push('/ai-video')}>
+                    <Video className="mr-2 h-4 w-4" />
+                    <span>AI Videos</span>
+                  </DropdownMenuItem>
                   <DropdownMenuItem className="text-white hover:bg-white/10" onClick={() => router.push('/profile')}>
                     <UserCircle className="mr-2 h-4 w-4" />
                     <span>Profile</span>
@@ -107,6 +111,10 @@ export function PageHeader({ title, rightContent }: PageHeaderProps) {
                   <DropdownMenuItem className="text-white hover:bg-white/10" onClick={() => router.push('/content-templates')}>
                     <Settings className="mr-2 h-4 w-4" />
                     <span>Templates</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="text-white hover:bg-white/10" onClick={() => router.push('/ai-video')}>
+                    <Video className="mr-2 h-4 w-4" />
+                    <span>AI Videos</span>
                   </DropdownMenuItem>
                   <DropdownMenuItem className="text-white hover:bg-white/10" onClick={() => router.push('/profile')}>
                     <UserCircle className="mr-2 h-4 w-4" />

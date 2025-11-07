@@ -323,7 +323,7 @@ export default function ContentTemplatesPage() {
                   <SelectTrigger className="w-64 bg-[#1A1A1A] border-white/10 text-white">
                     <SelectValue placeholder="All Topics" />
                   </SelectTrigger>
-                  <SelectContent className="bg-[#1A1A1A] border-white/10">
+                  <SelectContent className="bg-[#1A1A1A] border-white/10 w-min">
                     <SelectItem value="all" className="text-white hover:bg-white/10">
                       All Topics
                     </SelectItem>
@@ -350,7 +350,7 @@ export default function ContentTemplatesPage() {
                     <SelectTrigger className="w-40 bg-[#1A1A1A] border-white/10 text-white">
                       <SelectValue placeholder="Select Status" />
                     </SelectTrigger>
-                    <SelectContent className="bg-[#1A1A1A] border-white/10">
+                    <SelectContent className="bg-[#1A1A1A] border-white/10 w-min">
                       <SelectItem value="draft" className="text-white hover:bg-white/10">Draft</SelectItem>
                       <SelectItem value="templates_generated" className="text-white hover:bg-white/10">Templates Ready</SelectItem>
                       <SelectItem value="approved" className="text-white hover:bg-white/10">Approved</SelectItem>

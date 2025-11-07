@@ -39,18 +39,18 @@ export function ScheduledPostCard({ post, onDelete }: ScheduledPostCardProps) {
     default: 'bg-[#1E90FF]/20 text-[#1E90FF] border-[#1E90FF]/30',
   };
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  };
+  const scheduledDate = new Date(post.scheduledAt);
 
-  const formatTime = (timeString: string) => {
-    const [hours, minutes] = timeString.split(':');
-    const hour = parseInt(hours);
-    const ampm = hour >= 12 ? 'PM' : 'AM';
-    const displayHour = hour % 12 || 12;
-    return `${displayHour}:${minutes} ${ampm}`;
-  };
+  const formattedDate = scheduledDate.toLocaleDateString(undefined, {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+
+  const formattedTime = scheduledDate.toLocaleTimeString(undefined, {
+    hour: 'numeric',
+    minute: '2-digit',
+  });
 
   const handleDelete = () => {
     onDelete(post.id);
@@ -93,11 +93,11 @@ export function ScheduledPostCard({ post, onDelete }: ScheduledPostCardProps) {
           <div className="flex items-center gap-6 pt-2 border-t border-white/5">
             <div className="flex items-center gap-2 text-sm text-gray-400">
               <Calendar className="w-4 h-4 text-[#1E90FF]" />
-              <span>{formatDate(post.scheduledDate)}</span>
+              <span>{formattedDate}</span>
             </div>
             <div className="flex items-center gap-2 text-sm text-gray-400">
               <Clock className="w-4 h-4 text-[#FF2D95]" />
-              <span>{formatTime(post.scheduledTime)}</span>
+              <span>{formattedTime}</span>
             </div>
           </div>
         </CardContent>

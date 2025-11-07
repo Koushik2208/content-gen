@@ -67,7 +67,7 @@ export function ContentTemplateCard({ template, onSave, onStatusUpdate }: Conten
   };
 
   return (
-    <Card className="relative bg-[#1A1A1A] border border-white/10 shadow-lg hover:shadow-2xl hover:shadow-[#1E90FF]/10 transition-all duration-300 group h-[360px] flex flex-col rounded-2xl before:content-[''] before:absolute before:top-0 before:left-1/2 before:-translate-x-1/2 before:w-24 before:h-2 before:bg-white/10 before:rounded-b-md">
+    <Card className="relative bg-[#1A1A1A] border border-white/10 shadow-lg hover:shadow-2xl hover:shadow-[#1E90FF]/10 transition-all duration-300 group h-[400px] flex flex-col rounded-2xl before:content-[''] before:absolute before:top-0 before:left-1/2 before:-translate-x-1/2 before:w-24 before:h-2 before:bg-white/10 before:rounded-b-md">
       <CardHeader className="space-y-4 flex-shrink-0">
         <div className="flex items-start justify-between gap-4">
           <h3 className="text-xl font-semibold text-white leading-tight flex-1">

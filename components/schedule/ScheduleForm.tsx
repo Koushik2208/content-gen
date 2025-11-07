@@ -77,7 +77,9 @@ export function ScheduleForm({ templates, scheduledTemplateIds, topics, onSchedu
   return (
     <Card className="bg-gradient-to-br from-[#1A1A1A] to-[#161616] border-white/10 shadow-2xl">
       <CardHeader>
-        <CardTitle className="text-2xl font-bold text-white">Create Schedule</CardTitle>
+        <CardTitle className="text-2xl font-bold text-white">
+          Create Schedule
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -85,20 +87,26 @@ export function ScheduleForm({ templates, scheduledTemplateIds, topics, onSchedu
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label className="text-white">Filter by Topic</Label>
-              <Select value={selectedTopicId} onValueChange={(value) => {
-                setSelectedTopicId(value);
-                setSelectedTemplateId(''); // Reset template selection when filter changes
-              }}>
+              <Select
+                value={selectedTopicId}
+                onValueChange={(value) => {
+                  setSelectedTopicId(value);
+                  setSelectedTemplateId(""); // Reset template selection when filter changes
+                }}
+              >
                 <SelectTrigger className="bg-[#121212] border-white/10 focus:border-[#1E90FF] focus:ring-[#1E90FF]/20 text-white">
                   <SelectValue placeholder="All Topics" />
                 </SelectTrigger>
-                <SelectContent className="bg-[#1A1A1A] border-white/10">
-                  <SelectItem value="all" className="text-white hover:bg-white/10">
+                <SelectContent className="bg-[#1A1A1A] border-white/10 w-min">
+                  <SelectItem
+                    value="all"
+                    className="text-white hover:bg-white/10"
+                  >
                     All Topics
                   </SelectItem>
                   {topics.map((topic) => (
-                    <SelectItem 
-                      key={topic.id} 
+                    <SelectItem
+                      key={topic.id}
                       value={topic.id}
                       className="text-white hover:bg-white/10"
                     >
@@ -111,20 +119,26 @@ export function ScheduleForm({ templates, scheduledTemplateIds, topics, onSchedu
 
             <div className="space-y-2">
               <Label className="text-white">Filter by Platform</Label>
-              <Select value={selectedPlatform} onValueChange={(value) => {
-                setSelectedPlatform(value);
-                setSelectedTemplateId(''); // Reset template selection when filter changes
-              }}>
+              <Select
+                value={selectedPlatform}
+                onValueChange={(value) => {
+                  setSelectedPlatform(value);
+                  setSelectedTemplateId(""); // Reset template selection when filter changes
+                }}
+              >
                 <SelectTrigger className="bg-[#121212] border-white/10 focus:border-[#1E90FF] focus:ring-[#1E90FF]/20 text-white">
                   <SelectValue placeholder="All Platforms" />
                 </SelectTrigger>
-                <SelectContent className="bg-[#1A1A1A] border-white/10">
-                  <SelectItem value="all" className="text-white hover:bg-white/10">
+                <SelectContent className="bg-[#1A1A1A] border-white/10 w-min">
+                  <SelectItem
+                    value="all"
+                    className="text-white hover:bg-white/10"
+                  >
                     All Platforms
                   </SelectItem>
                   {platforms.map((platform) => (
-                    <SelectItem 
-                      key={platform} 
+                    <SelectItem
+                      key={platform}
                       value={platform}
                       className="text-white hover:bg-white/10"
                     >
@@ -137,30 +151,45 @@ export function ScheduleForm({ templates, scheduledTemplateIds, topics, onSchedu
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="template" className="text-white">Select Template</Label>
-            <Select value={selectedTemplateId} onValueChange={setSelectedTemplateId}>
+            <Label htmlFor="template" className="text-white">
+              Select Template
+            </Label>
+            <Select
+              value={selectedTemplateId}
+              onValueChange={setSelectedTemplateId}
+            >
               <SelectTrigger
                 id="template"
                 className="bg-[#121212] border-white/10 focus:border-[#1E90FF] focus:ring-[#1E90FF]/20 text-white"
               >
                 <SelectValue placeholder="Choose a template to schedule" />
               </SelectTrigger>
-              <SelectContent className="bg-[#1A1A1A] border-white/10">
+              <SelectContent className="bg-[#1A1A1A] border-white/10 w-min">
                 {filteredTemplates.length > 0 ? (
                   filteredTemplates.map((template) => {
-                    const isScheduled = scheduledTemplateIds.includes(template.id);
+                    const isScheduled = scheduledTemplateIds.includes(
+                      template.id
+                    );
                     return (
                       <SelectItem
                         key={template.id}
                         value={template.id}
                         disabled={isScheduled}
-                        className="text-white hover:bg-white/5 focus:bg-white/5 data-[disabled]:opacity-50 data-[disabled]:cursor-not-allowed"
+                        className="text-white data-[disabled]:opacity-50 data-[disabled]:cursor-not-allowed"
                       >
-                        <div className="flex items-center justify-between w-full gap-4">
-                          <span className="flex-1 truncate">{template.title}</span>
-                          <span className="text-xs text-gray-500">{template.platform}</span>
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full gap-1 sm:gap-4">
+                          <div className="flex items-center gap-2 min-w-0">
+                            <span className="flex-1">
+                              {template.title}
+                            </span>
+                            <span className="text-xs text-gray-500 shrink-0">
+                              {template.platform}
+                            </span>
+                          </div>
                           {isScheduled && (
-                            <span className="text-xs text-amber-500">Already Scheduled</span>
+                            <span className="text-xs text-amber-500 shrink-0">
+                              Already Scheduled
+                            </span>
                           )}
                         </div>
                       </SelectItem>
@@ -175,7 +204,8 @@ export function ScheduleForm({ templates, scheduledTemplateIds, topics, onSchedu
             </Select>
             {selectedTemplate && (
               <p className="text-sm text-gray-400">
-                Platform: <span className="text-white">{selectedTemplate.platform}</span>
+                Platform:{" "}
+                <span className="text-white">{selectedTemplate.platform}</span>
               </p>
             )}
           </div>
@@ -190,10 +220,17 @@ export function ScheduleForm({ templates, scheduledTemplateIds, topics, onSchedu
                     className="w-full justify-start text-left font-normal bg-[#121212] border-white/10 hover:border-[#1E90FF] hover:bg-[#121212] text-white"
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
-                    {selectedDate ? format(selectedDate, 'PPP') : <span>Pick a date</span>}
+                    {selectedDate ? (
+                      format(selectedDate, "PPP")
+                    ) : (
+                      <span>Pick a date</span>
+                    )}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0 bg-[#1A1A1A] border-white/10" align="start">
+                <PopoverContent
+                  className="w-auto p-0 bg-[#1A1A1A] border-white/10"
+                  align="start"
+                >
                   <Calendar
                     mode="single"
                     selected={selectedDate}
@@ -201,7 +238,9 @@ export function ScheduleForm({ templates, scheduledTemplateIds, topics, onSchedu
                       setSelectedDate(date);
                       setIsCalendarOpen(false);
                     }}
-                    disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+                    disabled={(date) =>
+                      date < new Date(new Date().setHours(0, 0, 0, 0))
+                    }
                     initialFocus
                     className="rounded-md"
                   />
@@ -213,10 +252,10 @@ export function ScheduleForm({ templates, scheduledTemplateIds, topics, onSchedu
               <Label className="text-white">Time</Label>
               <div className="flex items-center gap-2">
                 <div className="flex-1">
-                  <Select 
-                    value={selectedTime.split(':')[0] || '09'} 
+                  <Select
+                    value={selectedTime.split(":")[0] || "09"}
                     onValueChange={(hour) => {
-                      const minutes = selectedTime.split(':')[1] || '00';
+                      const minutes = selectedTime.split(":")[1] || "00";
                       setSelectedTime(`${hour}:${minutes}`);
                     }}
                   >
@@ -226,11 +265,15 @@ export function ScheduleForm({ templates, scheduledTemplateIds, topics, onSchedu
                         <SelectValue placeholder="Hour" />
                       </div>
                     </SelectTrigger>
-                    <SelectContent className="bg-[#1A1A1A] border-white/10">
+                    <SelectContent className="bg-[#1A1A1A] border-white/10 w-min">
                       {Array.from({ length: 24 }, (_, i) => {
-                        const hour = i.toString().padStart(2, '0');
+                        const hour = i.toString().padStart(2, "0");
                         return (
-                          <SelectItem key={hour} value={hour} className="text-white hover:bg-white/10">
+                          <SelectItem
+                            key={hour}
+                            value={hour}
+                            className="text-white hover:bg-white/10"
+                          >
                             {hour}
                           </SelectItem>
                         );
@@ -240,19 +283,23 @@ export function ScheduleForm({ templates, scheduledTemplateIds, topics, onSchedu
                 </div>
                 <span className="text-white">:</span>
                 <div className="flex-1">
-                  <Select 
-                    value={selectedTime.split(':')[1] || '00'} 
+                  <Select
+                    value={selectedTime.split(":")[1] || "00"}
                     onValueChange={(minutes) => {
-                      const hour = selectedTime.split(':')[0] || '09';
+                      const hour = selectedTime.split(":")[0] || "09";
                       setSelectedTime(`${hour}:${minutes}`);
                     }}
                   >
                     <SelectTrigger className="bg-[#121212] border-white/10 focus:border-[#1E90FF] focus:ring-[#1E90FF]/20 text-white">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="bg-[#1A1A1A] border-white/10">
-                      {['00', '15', '30', '45'].map((minute) => (
-                        <SelectItem key={minute} value={minute} className="text-white hover:bg-white/10">
+                    <SelectContent className="bg-[#1A1A1A] border-white/10 w-min">
+                      {["00", "15", "30", "45"].map((minute) => (
+                        <SelectItem
+                          key={minute}
+                          value={minute}
+                          className="text-white hover:bg-white/10"
+                        >
                           {minute}
                         </SelectItem>
                       ))}

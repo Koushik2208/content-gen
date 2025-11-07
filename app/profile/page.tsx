@@ -287,7 +287,7 @@ export default function ProfilePage() {
                         <SelectTrigger className="bg-[#121212] border-white/10 focus:border-[#1E90FF] focus:ring-[#1E90FF]/20 text-white h-12 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed">
                           <SelectValue placeholder="Select your preferred tone" />
                         </SelectTrigger>
-                        <SelectContent className="bg-[#1A1A1A] border-white/10 text-white">
+                        <SelectContent className="bg-[#1A1A1A] border-white/10 text-white w-min">
                           <SelectItem value="professional">Professional</SelectItem>
                           <SelectItem value="casual">Casual & Friendly</SelectItem>
                           <SelectItem value="authoritative">Authoritative</SelectItem>

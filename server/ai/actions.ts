@@ -223,3 +223,58 @@ export async function approveTopicAndGenerateTemplates(topicId: string, userId: 
     throw new Error('Failed to approve topic and generate templates')
   }
 }
+
+export async function improveTopicWithFeedback(
+  topicId: string,
+  userId: string,
+  feedback: string | undefined,
+  targetAudience?: string,
+  tone?: string
+) {
+  const supabase = createServerClient()
+  
+  try {
+    // Get current topic
+    const { data: topic, error: topicError } = await supabase
+      .from('content_topics')
+      .select('topic, has_been_improved')
+      .eq('id', topicId)
+      .eq('user_id', userId)
+      .single()
+    
+    if (topicError || !topic) {
+      throw new Error('Topic not found')
+    }
+    
+    if (topic.has_been_improved) {
+      throw new Error('This topic has already been improved. You can only improve a topic once.')
+    }
+    
+    let improvedTopic = topic.topic;
+    
+    // Only regenerate topic text if feedback is provided
+    if (feedback && feedback.trim()) {
+      const { improveTopicWithFeedback: improveTopic } = await import('./openai-actions')
+      improvedTopic = await improveTopic(topic.topic, feedback, targetAudience, tone)
+    }
+    
+    // Update topic
+    const { error: updateError } = await supabase
+      .from('content_topics')
+      .update({
+        topic: improvedTopic,
+        has_been_improved: true,
+        target_audience: targetAudience || null,
+        tone: tone || null,
+      })
+      .eq('id', topicId)
+      .eq('user_id', userId)
+    
+    if (updateError) throw updateError
+    
+    return { success: true, improvedTopic }
+  } catch (error: any) {
+    console.error('Error improving topic:', error)
+    throw new Error(error.message || 'Failed to improve topic')
+  }
+}
