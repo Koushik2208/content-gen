@@ -8,6 +8,7 @@ import { CTASection } from '@/components/landing/CTASection';
 import { Footer } from '@/components/landing/Footer';
 
 export default function Home() {
+  // redeployment check
   return (
     <div className="min-h-screen">
       <Header />
