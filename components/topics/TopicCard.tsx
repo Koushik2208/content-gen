@@ -1,6 +1,6 @@
 "use client";
 
-import { Clock, CheckCircle2, XCircle, FileText, ArrowRight, Video, Sparkles } from "lucide-react";
+import { Clock, CheckCircle2, XCircle, FileText, Video, Sparkles, Eye } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -40,7 +40,7 @@ const statusConfig = {
     clickable: true,
   },
   templates_generated: {
-    icon: ArrowRight,
+    icon: CheckCircle2,
     label: "Ready",
     color: "bg-orange-500/20 text-orange-400 border-orange-500/30",
     iconColor: "text-orange-400",
@@ -193,10 +193,8 @@ export function TopicCard({ topic, onTopicUpdate }: TopicCardProps) {
       className={`
         relative rounded-2xl p-6 border border-gray-700 bg-[#1A1A1A]
         hover:border-[#1E90FF]/50 transition-all duration-300 min-h-[280px] sm:min-h-[260px] flex flex-col group
-        ${(config.clickable && !isGenerating) ? "cursor-pointer hover:-translate-y-1" : ""}
         ${isGenerating ? "opacity-75" : ""}
       `}
-      onClick={config.clickable && !isGenerating ? handleTopicClick : undefined}
     >
         <div className="flex items-start justify-between mb-4 gap-4">
         <div className="flex-1">
@@ -228,6 +226,61 @@ export function TopicCard({ topic, onTopicUpdate }: TopicCardProps) {
       </div>
 
       <div className="mt-auto pt-2 space-y-2">
+        {/* Primary Action Button - Generate or View Content */}
+        {topic.status === "draft" && (
+          <Button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleTopicClick();
+            }}
+            disabled={isGenerating}
+            size="sm"
+            className="w-full bg-gradient-to-r from-[#1E90FF] to-[#FF2D95] hover:from-[#1E90FF]/90 hover:to-[#FF2D95]/90 text-white rounded-full text-xs font-semibold"
+          >
+            {isGenerating ? (
+              <>
+                <div className="w-3 h-3 animate-spin border-2 border-white border-t-transparent rounded-full mr-2" />
+                Generating Content...
+              </>
+            ) : (
+              <>
+                <Sparkles className="w-3 h-3 mr-2" />
+                Generate Content
+              </>
+            )}
+          </Button>
+        )}
+
+        {(topic.status === "templates_generated" || topic.status === "approved") && (
+          <Button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleTopicClick();
+            }}
+            size="sm"
+            className="w-full bg-gradient-to-r from-[#1E90FF] to-[#FF2D95] hover:from-[#1E90FF]/90 hover:to-[#FF2D95]/90 text-white rounded-full text-xs font-semibold"
+          >
+            <Eye className="w-3 h-3 mr-2" />
+            View Content
+          </Button>
+        )}
+
+        {/* Secondary Actions */}
+        {(topic.status === "templates_generated" || topic.status === "approved") && videoStatus === "completed" && (
+          <Button
+            onClick={(e) => {
+              e.stopPropagation();
+              router.push("/ai-video");
+            }}
+            size="sm"
+            variant="outline"
+            className="w-full border-white/20 hover:border-[#1E90FF]/50 hover:bg-[#1E90FF]/10 rounded-full text-xs"
+          >
+            <Video className="w-3 h-3 mr-2" />
+            View Video
+          </Button>
+        )}
+
         {/* COMMENTED OUT FOR DEMO - To save HeyGen credits */}
         {/* {(topic.status === "templates_generated" || topic.status === "approved") && videoStatus === "none" && (
           <Button
@@ -250,21 +303,6 @@ export function TopicCard({ topic, onTopicUpdate }: TopicCardProps) {
             )}
           </Button>
         )} */}
-
-        {(topic.status === "templates_generated" || topic.status === "approved") && videoStatus === "completed" && (
-          <Button
-            onClick={(e) => {
-              e.stopPropagation();
-              router.push("/ai-video");
-            }}
-            size="sm"
-            variant="outline"
-            className="w-full border-white/20 hover:border-[#1E90FF]/50 hover:bg-[#1E90FF]/10 rounded-full text-xs"
-          >
-            <Video className="w-3 h-3 mr-2" />
-            View Video
-          </Button>
-        )}
 
         {/* COMMENTED OUT FOR DEMO - To save HeyGen credits */}
         {/* {(topic.status === "templates_generated" || topic.status === "approved") && videoStatus === "failed" && (
