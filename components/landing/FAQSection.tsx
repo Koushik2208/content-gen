@@ -7,44 +7,44 @@ import Link from 'next/link';
 
 const faqs = [
   {
-    question: "How does the AI understand my industry and voice?",
-    answer: "Our AI uses advanced natural language processing trained on millions of high-performing social media posts across industries. During setup, you provide information about your industry, target audience, and content goals. The AI then analyzes successful content patterns in your niche and adapts to your preferred tone and style based on examples you provide."
+    question: "How does ContentGenPro create personalized content?",
+    answer: "During setup, you provide information about your industry, target audience, and content goals. Based on your preferences, the platform generates content tailored to your brand positioning and style. You can further customize any content to match your exact voice and messaging."
   },
   {
     question: "Can I customize the generated content?",
-    answer: "Absolutely! Every piece of generated content serves as a starting point. You can edit, modify, or completely rewrite any content to match your exact needs. The AI learns from your edits to improve future generations. You also have full control over content length, tone, hashtags, and call-to-actions."
+    answer: "Absolutely! Every piece of generated content serves as a starting point. You can edit, modify, or completely rewrite any content to match your exact needs. You have full control over content length, tone, hashtags, and call-to-actions. Save your edits as templates for future use."
   },
   {
     question: "What types of content can I create?",
-    answer: "ContentGen Pro supports a wide variety of content types including LinkedIn posts, Instagram captions, Twitter threads, carousel slides, video scripts, newsletter content, blog post outlines, case studies, thought leadership articles, and more. Each type is optimized for its specific platform and audience behavior."
+    answer: "ContentGenPro supports LinkedIn posts, Instagram captions, Twitter/X posts, and Instagram carousel slides. Each content type is optimized for its specific platform. You can download carousel images ready for Instagram posting, and copy captions for direct use on your social media platforms."
   },
   {
     question: "How much time will this actually save me?",
-    answer:    "Our users report saving 10-15 hours per week on average. Instead of spending hours brainstorming, researching topics, and writing content, you can generate weeks of content in under 30 minutes. The time saved allows you to focus on engaging with your audience and growing your business."
+    answer: "Our users report saving 10+ hours per week on average. Instead of spending hours brainstorming topics and writing content, you can generate weeks of content in minutes. The time saved allows you to focus on engaging with your audience and growing your business."
   },
   {
-    question: "Is there a limit to how much content I can generate?",
-    answer: "Our plans offer generous content generation limits. The Starter plan includes 100 posts per month, Professional includes 500 posts, and Enterprise offers unlimited generation. Most users find these limits more than sufficient for their content needs. You can always upgrade if you need more."
+    question: "How do I download Instagram carousel images?",
+    answer: "When viewing an Instagram template in the content templates section, you'll see a 'Download Carousel' button. Click it to download all carousel slides as separate PNG files, perfectly sized for Instagram (1080x1080px). The images maintain all styling including fonts, colors, and drop shadows."
   },
   {
     question: "What if the content doesn't match my style?",
-    answer: "The AI learns and improves with use. If initial content doesn't match your style perfectly, you can provide feedback, examples of your preferred content, and make edits. The system learns from these inputs to better match your voice in future generations. Most users see significant improvement after the first week of use."
+    answer: "You can edit any generated content to match your exact style and voice. The platform provides a starting point that you can customize. Over time, you'll build a library of templates that reflect your preferred content style and messaging."
   },
   {
-    question: "Can I schedule posts directly from the platform?",
-    answer: "Yes! ContentGen Pro integrates with major social media platforms including LinkedIn, Instagram, Twitter, Facebook, and more. You can schedule posts directly from our dashboard, manage your content calendar, and track performance metrics all in one place."
-  },
-  {
-    question: "Do you offer team collaboration features?",
-    answer: "Yes, our Professional and Enterprise plans include team collaboration features. You can add team members, assign roles and permissions, share content templates, maintain brand consistency across team members, and review content before publishing."
+    question: "Can I organize my content?",
+    answer: "Yes! ContentGenPro allows you to organize your content by topics and templates. You can create topics, generate content for each topic, and save your favorite content as reusable templates. This helps you maintain consistency and build a content library over time."
   },
   {
     question: "Is my data secure and private?",
-    answer: "Data security is our top priority. We use enterprise-grade encryption, never share your content with third parties, and comply with GDPR and other privacy regulations. Your content ideas, generated posts, and business information remain completely private and secure."
+    answer: "Data security is our top priority. We use enterprise-grade encryption and never share your content with third parties. Your content ideas, generated posts, and business information remain completely private and secure."
+  },
+  {
+    question: "Do I need to connect my social media accounts?",
+    answer: "No, you don't need to connect your social media accounts. You can generate content, download images, and copy captions to use on any platform. This gives you full control over when and where you publish your content."
   },
   {
     question: "What kind of support do you provide?",
-    answer: "We offer comprehensive support including live chat, email support, video tutorials, webinars, and a detailed knowledge base. Professional and Enterprise plans include priority support with dedicated account managers and one-on-one onboarding sessions."
+    answer: "We offer email support and a detailed knowledge base to help you get the most out of ContentGenPro. Our support team is here to assist with any questions about using the platform and creating great content."
   }
 ];
 

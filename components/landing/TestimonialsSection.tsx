@@ -29,7 +29,7 @@ const testimonials = [
     title: "Healthcare Consultant",
     company: "MedTech Advisors",
     image: "https://images.pexels.com/photos/762020/pexels-photo-762020.jpeg?auto=compress&cs=tinysrgb&w=400",
-    content: "The AI understands my industry perfectly. Every post feels authentic to my expertise in healthcare. I've attracted 3 new clients directly from my LinkedIn content in the past month.",
+    content: "The personalized content perfectly matches my industry. Every post feels authentic to my expertise in healthcare. I've attracted 3 new clients directly from my LinkedIn content in the past month.",
     rating: 5,
     results: "3 new clients acquired"
   },
@@ -56,7 +56,7 @@ const testimonials = [
     title: "Financial Advisor",
     company: "WealthPath Group",
     image: "https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=400",
-    content: "Complex financial topics made simple and engaging. The AI helps me break down complicated concepts into digestible content that my clients actually want to read and share.",
+    content: "Complex financial topics made simple and engaging. The platform helps me break down complicated concepts into digestible content that my clients actually want to read and share.",
     rating: 5,
     results: "50% more client referrals"
   }

@@ -28,7 +28,7 @@ export function PageHeader({ title, rightContent }: PageHeaderProps) {
         {/* Desktop Layout - Single Row */}
         <div className="hidden sm:flex items-center justify-between">
           <Link href="/" className="text-2xl font-bold tracking-wider heading-bebas">
-            {title || 'BRANDAI'}
+            {title || 'CONTENTGENPRO'}
           </Link>
           
           <div className="flex items-center gap-3">
@@ -59,10 +59,11 @@ export function PageHeader({ title, rightContent }: PageHeaderProps) {
                     <Settings className="mr-2 h-4 w-4" />
                     <span>Templates</span>
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="text-white hover:bg-white/10" onClick={() => router.push('/ai-video')}>
+                  {/* Commenting out AI Videos to save HeyGen credits */}
+                  {/* <DropdownMenuItem className="text-white hover:bg-white/10" onClick={() => router.push('/ai-video')}>
                     <Video className="mr-2 h-4 w-4" />
                     <span>AI Videos</span>
-                  </DropdownMenuItem>
+                  </DropdownMenuItem> */}
                   <DropdownMenuItem className="text-white hover:bg-white/10" onClick={() => router.push('/profile')}>
                     <UserCircle className="mr-2 h-4 w-4" />
                     <span>Profile</span>
@@ -83,7 +84,7 @@ export function PageHeader({ title, rightContent }: PageHeaderProps) {
           {/* First Row: Title and Avatar */}
           <div className="flex items-center justify-between">
             <Link href="/" className="text-xl font-bold tracking-wider heading-bebas">
-              {title || 'BRANDAI'}
+              {title || 'CONTENTGENPRO'}
             </Link>
             
             {user && (
@@ -112,10 +113,11 @@ export function PageHeader({ title, rightContent }: PageHeaderProps) {
                     <Settings className="mr-2 h-4 w-4" />
                     <span>Templates</span>
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="text-white hover:bg-white/10" onClick={() => router.push('/ai-video')}>
+                  {/* Commenting out AI Videos to save HeyGen credits */}
+                  {/* <DropdownMenuItem className="text-white hover:bg-white/10" onClick={() => router.push('/ai-video')}>
                     <Video className="mr-2 h-4 w-4" />
                     <span>AI Videos</span>
-                  </DropdownMenuItem>
+                  </DropdownMenuItem> */}
                   <DropdownMenuItem className="text-white hover:bg-white/10" onClick={() => router.push('/profile')}>
                     <UserCircle className="mr-2 h-4 w-4" />
                     <span>Profile</span>

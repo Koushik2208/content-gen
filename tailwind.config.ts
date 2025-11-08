@@ -12,6 +12,7 @@ const config: Config = {
       fontFamily: {
         manrope: ['var(--font-manrope)', 'sans-serif'],
         bebas: ['var(--font-bebas)', 'sans-serif'],
+        greatVibes: ['var(--font-great-vibes)', 'sans-serif'],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

@@ -10,15 +10,15 @@ const steps = [
     number: "01",
     icon: User,
     title: "Personalize Your Profile",
-    description: "Tell us about your industry, target audience, and content goals. Our AI learns your unique voice and brand positioning.",
+    description: "Tell us about your industry, target audience, and content goals. Get personalized content based on your preferences and brand positioning.",
     details: "Set up takes less than 2 minutes. Choose from 50+ industries and define your ideal client persona."
   },
   {
     number: "02",
     icon: Sparkles,
-    title: "AI Generates Content",
-    description: "Watch as our advanced AI creates engaging posts, captions, and carousels tailored to your brand and audience preferences.",
-    details: "Get 10+ content variations per request. Each post is optimized for maximum engagement on your chosen platform."
+    title: "Generate Content",
+    description: "Create engaging posts, captions, and carousels tailored to your brand and audience preferences with our content generation tools.",
+    details: "Get multiple content variations per request. Each post is optimized for maximum engagement on your chosen platform."
   },
   {
     number: "03",
@@ -142,7 +142,7 @@ export function HowItWorksSection() {
 
               {activeStep === 1 && (
                 <div className="space-y-6">
-                  <h4 className="text-lg font-semibold text-white mb-4">AI Content Generation</h4>
+                  <h4 className="text-lg font-semibold text-white mb-4">Content Generation</h4>
                   <div className="space-y-4">
                     <div className="bg-[#121212] rounded-lg p-4 border border-white/10">
                       <div className="flex items-center justify-between mb-3">

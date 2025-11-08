@@ -183,7 +183,7 @@ export default function OnboardingPage() {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="text-2xl font-bold tracking-wider heading-bebas">
-              BRANDAI
+              CONTENTGENPRO
             </Link>
             <Link href="/">
               <Button variant="outline" className="border-white/20 hover:border-white/40 hover:bg-white/5 rounded-full">

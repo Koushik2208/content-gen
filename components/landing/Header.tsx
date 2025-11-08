@@ -36,7 +36,7 @@ export function Header() {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="text-2xl font-bold tracking-wider" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-            BRANDAI
+            CONTENTGENPRO
           </div>
 
           <nav className="hidden md:flex items-center gap-8">

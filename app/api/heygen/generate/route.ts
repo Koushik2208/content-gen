@@ -36,24 +36,24 @@ export async function POST(request: Request) {
       );
     }
 
-    // Fetch X platform content template for this topic
+    // Fetch topic name from content_topics table
     const supabase = createServerClient();
-    const { data: template, error: templateError } = await supabase
-      .from('content_templates')
-      .select('content')
-      .eq('topic_id', topicId)
+    const { data: topic, error: topicError } = await supabase
+      .from('content_topics')
+      .select('topic')
+      .eq('id', topicId)
       .eq('user_id', userId)
-      .eq('platform', 'x')
       .single();
 
-    if (templateError || !template) {
+    if (topicError || !topic) {
       return NextResponse.json(
-        { error: 'X platform content template not found for this topic' },
+        { error: 'Topic not found' },
         { status: 404 }
       );
     }
 
-    const script = template.content; 
+    // Create a simple demo script with the topic name
+    const script = `Hey there, today we are going to talk about ${topic.topic}.`; 
 
     const payload = {
       video_inputs: [
@@ -106,8 +106,25 @@ export async function POST(request: Request) {
       );
     }
 
-    // Optionally: Save videoId to your DB here
-    // await db.aiVideo.update({ where: { topic_id: topicId }, data: { video_id: videoId, status: 'generating' } })
+    // Create or update the ai_videos record with generating status
+    const { error: dbError } = await supabase
+      .from('ai_videos')
+      .upsert({
+        user_id: userId,
+        topic_id: topicId,
+        video_id: videoId,
+        status: 'generating',
+        video_url: null,
+        error_message: null,
+        completed_at: null,
+      }, {
+        onConflict: 'user_id,topic_id',
+      });
+
+    if (dbError) {
+      console.error('Error saving video to database:', dbError);
+      // Don't fail the request, but log the error
+    }
 
     return NextResponse.json({ videoId }, { status: 200 });
   } catch (error: any) {

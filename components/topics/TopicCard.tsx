@@ -73,7 +73,8 @@ export function TopicCard({ topic, onTopicUpdate }: TopicCardProps) {
   const router = useRouter();
   const { user } = useAuth();
   const [isGenerating, setIsGenerating] = useState(false);
-  const [isGeneratingVideo, setIsGeneratingVideo] = useState(false);
+  // COMMENTED OUT FOR DEMO - To save HeyGen credits
+  // const [isGeneratingVideo, setIsGeneratingVideo] = useState(false);
   const [videoStatus, setVideoStatus] = useState<'none' | 'generating' | 'completed' | 'failed'>("none");
   const [isImproveDialogOpen, setIsImproveDialogOpen] = useState(false);
   const config = statusConfig[topic.status];
@@ -143,48 +144,49 @@ export function TopicCard({ topic, onTopicUpdate }: TopicCardProps) {
     }
   };
 
-  const handleGenerateVideo = async (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent card click
-    
-    if (!user) {
-      toast.error("Please sign in to continue");
-      return;
-    }
+  // COMMENTED OUT FOR DEMO - To save HeyGen credits
+  // const handleGenerateVideo = async (e: React.MouseEvent) => {
+  //   e.stopPropagation(); // Prevent card click
+  //   
+  //   if (!user) {
+  //     toast.error("Please sign in to continue");
+  //     return;
+  //   }
 
-    if (topic.status !== "templates_generated" && topic.status !== "approved") {
-      toast.error("Please generate templates first");
-      return;
-    }
+  //   if (topic.status !== "templates_generated" && topic.status !== "approved") {
+  //     toast.error("Please generate templates first");
+  //     return;
+  //   }
 
-    setIsGeneratingVideo(true);
-    try {
-      // Use the same defaults as the AI video page
-      const response = await fetch('/api/heygen/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          topicId: topic.id,
-          userId: user.id,
-          avatarId: "Aditya_public_1", // Same as AI video page
-          voiceId: "f38a635bee7a4d1f9b0a654a31d050d2", // Same as AI video page
-        }),
-      });
+  //   setIsGeneratingVideo(true);
+  //   try {
+  //     // Use the same defaults as the AI video page
+  //     const response = await fetch('/api/heygen/generate', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({
+  //         topicId: topic.id,
+  //         userId: user.id,
+  //         avatarId: "Aditya_public_1", // Same as AI video page
+  //         voiceId: "f38a635bee7a4d1f9b0a654a31d050d2", // Same as AI video page
+  //       }),
+  //     });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to start video generation');
-      }
+  //     if (!response.ok) {
+  //       const errorData = await response.json();
+  //       throw new Error(errorData.error || 'Failed to start video generation');
+  //     }
 
-      toast.success("Video generation started! Check AI Videos page for progress.");
-      router.push("/ai-video");
-    } catch (error: any) {
-      console.error("Error generating video:", error);
-      toast.error(error.message || "Failed to generate video. Please try again.");
-    } finally {
-      setIsGeneratingVideo(false);
-      checkVideoStatusForTopic();
-    }
-  };
+  //     toast.success("Video generation started! Check AI Videos page for progress.");
+  //     router.push("/ai-video");
+  //   } catch (error: any) {
+  //     console.error("Error generating video:", error);
+  //     toast.error(error.message || "Failed to generate video. Please try again.");
+  //   } finally {
+  //     setIsGeneratingVideo(false);
+  //     checkVideoStatusForTopic();
+  //   }
+  // };
 
   const CardContent = (
     <div
@@ -226,7 +228,8 @@ export function TopicCard({ topic, onTopicUpdate }: TopicCardProps) {
       </div>
 
       <div className="mt-auto pt-2 space-y-2">
-        {(topic.status === "templates_generated" || topic.status === "approved") && videoStatus === "none" && (
+        {/* COMMENTED OUT FOR DEMO - To save HeyGen credits */}
+        {/* {(topic.status === "templates_generated" || topic.status === "approved") && videoStatus === "none" && (
           <Button
             onClick={handleGenerateVideo}
             disabled={isGeneratingVideo}
@@ -246,7 +249,7 @@ export function TopicCard({ topic, onTopicUpdate }: TopicCardProps) {
               </>
             )}
           </Button>
-        )}
+        )} */}
 
         {(topic.status === "templates_generated" || topic.status === "approved") && videoStatus === "completed" && (
           <Button
@@ -263,7 +266,8 @@ export function TopicCard({ topic, onTopicUpdate }: TopicCardProps) {
           </Button>
         )}
 
-        {(topic.status === "templates_generated" || topic.status === "approved") && videoStatus === "failed" && (
+        {/* COMMENTED OUT FOR DEMO - To save HeyGen credits */}
+        {/* {(topic.status === "templates_generated" || topic.status === "approved") && videoStatus === "failed" && (
           <Button
             onClick={handleGenerateVideo}
             disabled={isGeneratingVideo}
@@ -283,7 +287,7 @@ export function TopicCard({ topic, onTopicUpdate }: TopicCardProps) {
               </>
             )}
           </Button>
-        )}
+        )} */}
 
         {!topic.has_been_improved && topic.status === "draft" && (
           <Button

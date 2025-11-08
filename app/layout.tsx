@@ -1,6 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Manrope } from 'next/font/google';
+import localFont from 'next/font/local';
 import { Toaster } from '@/components/ui/toaster';
 import { Toaster as SonnerToaster } from 'sonner';
 import { AuthProvider } from '@/lib/auth-context';
@@ -8,6 +9,11 @@ import { AuthProvider } from '@/lib/auth-context';
 const manrope = Manrope({
   subsets: ['latin'],
   variable: '--font-manrope',
+});
+
+const greatVibes = localFont({
+  src: './fonts/GreatVibes-Regular.ttf',
+  variable: '--font-great-vibes',
 });
 
 export const metadata: Metadata = {
@@ -27,7 +33,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet" />
       </head>
-      <body className={manrope.variable}>
+      <body className={`${manrope.variable} ${greatVibes.variable}`}>
         <AuthProvider>
           {children}
           <Toaster />

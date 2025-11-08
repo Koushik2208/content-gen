@@ -13,7 +13,7 @@ interface UserProfile {
   tone: string
 }
 
-export async function generateTopics(userProfile: UserProfile, userId: string, count: number = 5): Promise<string[]> {
+export async function generateTopics(userProfile: UserProfile, userId: string, count: number = 3): Promise<string[]> {
   try {
     const prompt = `Generate exactly ${count} content topic${count === 1 ? '' : 's'} for a ${userProfile.profession} targeting ${userProfile.audience} with a ${userProfile.tone} tone. 
     Return only the topics, one per line, without numbering or bullet points.`

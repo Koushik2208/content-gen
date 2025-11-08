@@ -8,7 +8,7 @@ const benefits = [
   {
     icon: Clock,
     title: "Save 10+ Hours Weekly",
-    description: "Stop spending endless hours brainstorming content. Our AI generates high-quality posts in seconds, freeing up your time for what matters most.",
+    description: "Stop spending endless hours brainstorming content. Generate high-quality posts in seconds, freeing up your time for what matters most.",
     color: "text-[#1E90FF]"
   },
   {
@@ -36,11 +36,11 @@ export function BenefitsSection() {
           <h2 className="text-4xl sm:text-5xl font-bold mb-6 heading-bebas text-white">
             Why Professionals Choose
             <span className="bg-gradient-to-r from-[#1E90FF] to-[#FF2D95] bg-clip-text text-transparent">
-              {' '}BrandAI
+              {' '}ContentGenPro
             </span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Transform your personal brand with AI-powered content that drives results. 
+            Transform your personal brand with personalized content that drives results. 
             Join thousands of professionals who've accelerated their growth with our platform.
           </p>
         </div>

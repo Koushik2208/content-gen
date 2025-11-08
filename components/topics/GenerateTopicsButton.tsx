@@ -29,7 +29,9 @@ export function GenerateTopicsButton({ currentCount, maxCount, onTopicsGenerated
 
     const remaining = maxCount - currentCount;
     const selectedCount = parseInt(count);
-    const topicsToGenerate = Math.min(selectedCount, remaining);
+    // Limit to max 3 topics at once
+    const maxPerGeneration = 3;
+    const topicsToGenerate = Math.min(selectedCount, remaining, maxPerGeneration);
 
     if (topicsToGenerate <= 0) {
       toast.error(`You have reached the maximum of ${maxCount} topics.`);
@@ -103,7 +105,7 @@ export function GenerateTopicsButton({ currentCount, maxCount, onTopicsGenerated
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="bg-[#1A1A1A] border-white/10">
-                  {[1, 2, 3, 4, 5].map((num) => {
+                  {[1, 2, 3].map((num) => {
                     const remaining = maxCount - currentCount;
                     const maxAllowed = Math.min(num, remaining);
                     return (
@@ -146,7 +148,7 @@ export function GenerateTopicsButton({ currentCount, maxCount, onTopicsGenerated
 
           <p className="text-sm text-gray-500 pt-2">
             {maxCount - currentCount > 0 
-              ? `You can generate up to ${Math.min(5, maxCount - currentCount)} more topic${Math.min(5, maxCount - currentCount) === 1 ? '' : 's'}`
+              ? `You can generate up to ${Math.min(3, maxCount - currentCount)} more topic${Math.min(3, maxCount - currentCount) === 1 ? '' : 's'} at once`
               : 'You have reached your topic limit'}
           </p>
         </div>

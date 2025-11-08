@@ -249,9 +249,10 @@ export default function SchedulePage() {
       });
     } catch (error) {
       console.error('Failed to schedule post:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Failed to schedule post. Please try again.';
       toast({
         title: 'Error',
-        description: 'Failed to schedule post. Please try again.',
+        description: errorMessage,
         variant: 'destructive',
       });
     }

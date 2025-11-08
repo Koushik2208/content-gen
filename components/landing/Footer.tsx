@@ -7,10 +7,10 @@ export function Footer() {
         <div className="grid md:grid-cols-4 gap-12 mb-12">
           <div className="col-span-2">
             <div className="text-2xl font-bold tracking-wider mb-4" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-              BRANDAI
+              CONTENTGENPRO
             </div>
             <p className="text-gray-400 max-w-md mb-6">
-              Build your personal brand effortlessly with AI-powered content creation. Save time, grow your audience, and transform your online presence.
+              Build your personal brand effortlessly with personalized content creation. Save time, grow your audience, and transform your online presence.
             </p>
             <div className="flex gap-4">
               <a
@@ -79,10 +79,10 @@ export function Footer() {
 
         <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-400 text-sm">
-            © 2025 BrandAI. All rights reserved.
+            © 2025 ContentGenPro. All rights reserved.
           </p>
           <p className="text-gray-400 text-sm">
-            Made with AI for creators worldwide
+            Made for creators worldwide
           </p>
         </div>
       </div>

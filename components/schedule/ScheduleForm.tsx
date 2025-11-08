@@ -294,7 +294,7 @@ export function ScheduleForm({ templates, scheduledTemplateIds, topics, onSchedu
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="bg-[#1A1A1A] border-white/10 w-min">
-                      {["00", "15", "30", "45"].map((minute) => (
+                      {Array.from({ length: 60 }, (_, i) => i.toString().padStart(2, "0")).map((minute) => (
                         <SelectItem
                           key={minute}
                           value={minute}

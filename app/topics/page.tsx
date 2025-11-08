@@ -44,7 +44,7 @@ export default function TopicsPage() {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 
   const topicCount = topics.length;
-  const maxTopics = 10;
+  const maxTopics = 5;
 
   // Check if user has profile
   const checkUserProfile = async (userId: string) => {

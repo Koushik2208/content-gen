@@ -4,14 +4,14 @@ import { createServerClient } from '@/lib/supabaseClient'
 import { generateTopics as generateTopicsWithOpenAI } from './openai-actions'
 import { log } from 'console'
 
-export async function generateTopics(userId: string, count: number = 5): Promise<string[]> {
+export async function generateTopics(userId: string, count: number = 3): Promise<string[]> {
   try {
     if (!userId) {
       throw new Error('User ID is required')
     }
 
-    if (count < 1 || count > 5) {
-      throw new Error('Count must be between 1 and 5')
+    if (count < 1 || count > 3) {
+      throw new Error('Count must be between 1 and 3')
     }
 
     const supabase = createServerClient()

@@ -156,7 +156,7 @@ const handleGenerate = async () => {
 
       if (status === 'completed' && video_url) {
         // Update database via API
-        await fetch('/api/ai-videos/update', {
+        const updateResponse = await fetch('/api/ai-videos/update', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -164,15 +164,23 @@ const handleGenerate = async () => {
             userId: user.id,
             status: 'completed',
             videoUrl: video_url,
+            videoId: videoId, // Pass videoId for proper record creation/update
           }),
         });
-        toast.success("Video generation completed!");
+
+        if (!updateResponse.ok) {
+          const errorData = await updateResponse.json();
+          console.error('Failed to update video in database:', errorData);
+          toast.error("Video generated but failed to save to database");
+        } else {
+          toast.success("Video generation completed!");
+        }
         onRefresh();
         return;
       }
 
       if (status === 'failed') {
-        await fetch('/api/ai-videos/update', {
+        const updateResponse = await fetch('/api/ai-videos/update', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -180,8 +188,13 @@ const handleGenerate = async () => {
             userId: user.id,
             status: 'failed',
             errorMessage: error?.message || 'Generation failed',
+            videoId: videoId, // Pass videoId for proper record creation/update
           }),
         });
+
+        if (!updateResponse.ok) {
+          console.error('Failed to update video status in database');
+        }
         toast.error("Video generation failed");
         onRefresh();
         return;

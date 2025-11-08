@@ -136,7 +136,7 @@ export function HeroSection() {
 
             {/* Floating badges */}
             <div className="absolute -top-4 -right-4 bg-[#1E90FF] text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg">
-              AI Powered
+              Smart Content
             </div>
             <div className="absolute -bottom-4 -left-4 bg-[#FF2D95] text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg">
               Real-time

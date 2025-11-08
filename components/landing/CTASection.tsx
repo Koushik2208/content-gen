@@ -23,7 +23,7 @@ export function CTASection() {
             </h2>
 
             <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-              Join thousands of creators who are building powerful personal brands with AI. Start your free trial today.
+              Join thousands of creators who are building powerful personal brands with personalized content. Start your free trial today.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
