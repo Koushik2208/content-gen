@@ -24,8 +24,8 @@ const steps = [
     number: "03",
     icon: Download,
     title: "Download & Publish",
-    description: "Copy your captions, download carousel images, and publish across all your social media platforms with one click.",
-    details: "Export in multiple formats. Schedule directly to LinkedIn, Instagram, Twitter, and more with our integrations."
+    description: "Copy your captions with one click, download Instagram carousel images ready to post (1080x1080px), and schedule your content for later. All content is optimized for each platform.",
+    details: "Download carousel images with professional styling. Copy captions directly to your clipboard. Schedule posts to publish at your preferred time."
   }
 ];
 
@@ -181,7 +181,7 @@ export function HowItWorksSection() {
                     </div>
                     <div className="flex items-center justify-between p-4 bg-[#121212] rounded-lg border border-white/10">
                       <span className="text-white">Twitter Thread</span>
-                      <button className="bg-gradient-to-r from-[#1E90FF] to-[#FF2D95] text-white px-4 py-2 rounded-lg text-sm hover:opacity-90 transition-all">Schedule Post</button>
+                      <button className="bg-gradient-to-r from-[#1E90FF] to-[#FF2D95] text-white px-4 py-2 rounded-lg text-sm hover:opacity-90 transition-all">Schedule for Later</button>
                     </div>
                   </div>
                 </div>

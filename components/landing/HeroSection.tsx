@@ -1,11 +1,28 @@
 'use client';
 
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Play, Star, Users, TrendingUp, Sparkles } from 'lucide-react';
+import { Play, TrendingUp, Sparkles, Zap } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { VideoModal } from './VideoModal';
 
 export function HeroSection() {
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  
+  // Replace this with your actual HeyGen video URL
+  // Option 1: Set NEXT_PUBLIC_DEMO_VIDEO_URL in your .env.local file
+  // Option 2: Replace the empty string below with your video URL directly
+  const demoVideoUrl = process.env.NEXT_PUBLIC_DEMO_VIDEO_URL || '';
+
+  const handleWatchDemo = () => {
+    if (demoVideoUrl) {
+      setIsVideoModalOpen(true);
+    } else {
+      // Fallback: You can replace this with a toast notification
+      alert('Demo video URL not configured. Please set NEXT_PUBLIC_DEMO_VIDEO_URL in your .env.local file or update the demoVideoUrl variable in HeroSection.tsx');
+    }
+  };
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-[#0F0F0F] via-[#1A1A1A] to-[#0F0F0F]">
       {/* Background blobs – same colours as the original hero */}
@@ -21,16 +38,16 @@ export function HeroSection() {
             {/* Social-proof pills */}
             <div className="flex flex-wrap gap-4 mb-6">
               <div className="flex items-center gap-2 bg-[#1E90FF]/10 px-4 py-2 rounded-full border border-[#1E90FF]/20">
-                <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                <span className="text-sm text-gray-300">4.9/5 Rating</span>
+                <Zap className="w-4 h-4 text-yellow-400" />
+                <span className="text-sm text-gray-300">Generate in Seconds</span>
               </div>
               <div className="flex items-center gap-2 bg-[#1E90FF]/10 px-4 py-2 rounded-full border border-[#1E90FF]/20">
-                <Users className="w-4 h-4 text-[#1E90FF]" />
-                <span className="text-sm text-gray-300">10K+ Users</span>
+                <Sparkles className="w-4 h-4 text-[#1E90FF]" />
+                <span className="text-sm text-gray-300">3 Platforms Supported</span>
               </div>
               <div className="flex items-center gap-2 bg-[#1E90FF]/10 px-4 py-2 rounded-full border border-[#1E90FF]/20">
                 <TrendingUp className="w-4 h-4 text-[#FF2D95]" />
-                <span className="text-sm text-gray-300">500% ROI</span>
+                <span className="text-sm text-gray-300">Ready to Publish</span>
               </div>
             </div>
 
@@ -45,11 +62,20 @@ export function HeroSection() {
               <span className="text-white">In Minutes</span>
             </h1>
 
+            {/* Problem Statement */}
+            <div className="bg-[#1A1A1A] border-l-4 border-[#1E90FF] p-4 rounded-lg mb-6">
+              <p className="text-gray-300 text-sm">
+                <span className="text-white font-semibold">The Problem:</span> Creating consistent, 
+                engaging social media content takes hours. You struggle with writer's block, finding 
+                the right topics, and formatting content for different platforms.
+              </p>
+            </div>
+
             {/* Sub-heading */}
             <p className="text-xl text-gray-400 leading-relaxed max-w-2xl">
-              Generate high-converting social media content and captions that build authority, 
-              attract your ideal audience, and grow your professional network. Save 10+ hours 
-              weekly.
+              Stop spending hours brainstorming content ideas. Generate personalized social media 
+              posts, captions, and Instagram carousel images in minutes. Ready to copy, download, 
+              and publish.
             </p>
 
             {/* Key benefits */}
@@ -59,12 +85,12 @@ export function HeroSection() {
                 <div className="text-sm text-gray-400">Hours Saved Weekly</div>
               </div>
               <div className="text-center sm:text-left">
-                <div className="text-3xl font-bold text-[#FF2D95] mb-1">500+</div>
-                <div className="text-sm text-gray-400">Content Templates</div>
+                <div className="text-3xl font-bold text-[#FF2D95] mb-1">3</div>
+                <div className="text-sm text-gray-400">Platforms Supported</div>
               </div>
               <div className="text-center sm:text-left">
-                <div className="text-3xl font-bold text-yellow-400 mb-1">3x</div>
-                <div className="text-sm text-gray-400">Engagement Growth</div>
+                <div className="text-3xl font-bold text-yellow-400 mb-1">60s</div>
+                <div className="text-sm text-gray-400">Content Generated</div>
               </div>
             </div>
 
@@ -82,6 +108,7 @@ export function HeroSection() {
               <Button
                 size="lg"
                 variant="outline"
+                onClick={handleWatchDemo}
                 className="w-full sm:w-auto border-white/20 hover:border-[#FF2D95]/50 hover:bg-[#FF2D95]/10 text-lg px-8 py-6 rounded-full group flex items-center justify-center gap-2"
               >
                 <Play className="w-5 h-5 group-hover:text-[#FF2D95] transition-colors" />
@@ -144,6 +171,17 @@ export function HeroSection() {
           </div>
         </div>
       </div>
+
+      {/* Video Modal */}
+      {demoVideoUrl && (
+        <VideoModal
+          open={isVideoModalOpen}
+          onOpenChange={setIsVideoModalOpen}
+          videoUrl={demoVideoUrl}
+          title="See ContentGenPro in Action"
+          description="Watch how we transform content creation from hours to minutes"
+        />
+      )}
     </section>
   );
 }

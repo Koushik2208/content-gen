@@ -13,14 +13,14 @@ const benefits = [
   },
   {
     icon: TrendingUp,
-    title: "3x Engagement Growth",
-    description: "See measurable results with content proven to increase likes, comments, and shares. Our users report 3x higher engagement rates on average.",
+    title: "Platform-Optimized Content",
+    description: "Get content specifically tailored for LinkedIn, Instagram, and X/Twitter. Each post is formatted for maximum visibility on its platform, with proper hashtags and formatting.",
     color: "text-[#FF2D95]"
   },
   {
     icon: Zap,
-    title: "Instant Content Creation",
-    description: "Generate months of content in minutes. From captions to carousel posts, get everything you need to maintain a consistent posting schedule.",
+    title: "Ready-to-Use Content",
+    description: "Generate weeks of content in minutes. Download Instagram carousel images (1080x1080px) with professional styling, copy captions, and schedule posts - all ready to publish.",
     color: "text-[#1E90FF]"
   }
 ];
@@ -40,8 +40,8 @@ export function BenefitsSection() {
             </span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Transform your personal brand with personalized content that drives results. 
-            Join thousands of professionals who've accelerated their growth with our platform.
+            Transform your personal brand with personalized content that's ready to publish. 
+            Generate, customize, and download professional content in minutes - not hours.
           </p>
         </div>
 
@@ -83,7 +83,7 @@ export function BenefitsSection() {
               Start Your Free Trial
             </Button>
           </Link>
-          <p className="text-gray-400 mt-4">Join 10,000+ professionals already growing their brands</p>
+          <p className="text-gray-400 mt-4">Start creating professional content in under 2 minutes</p>
         </div>
       </div>
     </section>
