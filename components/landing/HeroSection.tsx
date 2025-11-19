@@ -53,10 +53,10 @@ export function HeroSection() {
 
             {/* Headline */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight heading-bebas">
-              <span className="text-white">Transform Your</span>
+              <span className="text-white">Create</span>
               <br />
               <span className="bg-gradient-to-r from-[#1E90FF] to-[#FF2D95] bg-clip-text text-transparent">
-                Personal Brand
+                Publish-Ready Content
               </span>
               <br />
               <span className="text-white">In Minutes</span>
